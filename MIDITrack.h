@@ -2,6 +2,7 @@
 #define __MIDITRACK__
 
 #include <ByteStream.h>
+#include <MIDINotes.h>
 
 struct MIDITrack {
 	ByteStream byteStream;
@@ -40,8 +41,9 @@ struct MIDITrack {
 			byteStream.addBytes(0xFF, metatype, nbytes, args...);
 		}
 
-	void keyOn(int ch, int n, int p)    { if(n>=0)addEvent(0x90|ch, n, p); }
-	void keyOff(int ch, int n, int p)   { if(n>=0)addEvent(0x80|ch, n, p); }
+	void keyOn(int ch, Octave o, Note n, int p)    { addEvent(0x90|ch, getMIDINoteNumber(n, o), p); }
+	void keyOff(int ch, Octave o, Note n, int p)    { addEvent(0x80|ch, getMIDINoteNumber(n, o), p); }
+	//void keyOff(int ch, int n, int p)   { if(n>=0)addEvent(0x80|ch, n, p); }
 	void keyTouch(int ch, int n, int p) { if(n>=0)addEvent(0xA0|ch, n, p); }
 
 	void control(int ch, int c, int v) { addEvent(0xB0|ch, c, v); }
