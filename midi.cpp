@@ -10,28 +10,28 @@ int main() {
     MIDIfile file;
     //file.addLoopStart();
     file.track.keyOn(0, Octave::O4, Note::C, 127);
-    file.track.addDelay(320);
+    file.track.addDelay(4);
     file.track.keyOff(0, Octave::O4, Note::C, 127);
     file.track.keyOn(0, Octave::O4, Note::D, 127);
-    file.track.addDelay(320);
+    file.track.addDelay(4);
     file.track.keyOff(0, Octave::O4, Note::D, 127);
     file.track.keyOn(0, Octave::O4, Note::E, 127);
-    file.track.addDelay(320);
+    file.track.addDelay(4);
     file.track.keyOff(0, Octave::O4, Note::E, 127);
     file.track.keyOn(0, Octave::O5, Note::C, 127);
-    file.track.addDelay(320);
+    file.track.addDelay(4);
     file.track.keyOn(0, Octave::O5, Note::D, 127);
-    file.track.addDelay(320);
+    file.track.addDelay(4);
     file.track.keyOn(0, Octave::O5, Note::E, 127);
-    file.track.addDelay(320);
+    file.track.addDelay(4);
 
 
 
     //file.track.keyOn(9, 70, 127);
-    //file.track.addDelay(320);
+    //file.track.addDelay(4);
     //file.track.keyOn(0, 60, 127);
     //file.track.keyOn(9, 70, 127);
-    //file.track.addDelay(320);
+    //file.track.addDelay(4);
     //file.track.keyOn(0, 60, 127);
     //file.track.keyOn(9, 70, 127);
     

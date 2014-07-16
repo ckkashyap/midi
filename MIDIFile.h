@@ -10,8 +10,8 @@ struct MIDIfile
     unsigned deltaticks, tempo;
     ByteStream fileStream;
 
-    MIDIfile()
-        : track(), deltaticks(1000), tempo(1000000), fileStream {}
+    MIDIfile(unsigned deltaticks = 16, unsigned tempo = 1000000)
+        : track(), deltaticks(deltaticks), tempo(tempo), fileStream {}
     {
             track.addMetaEvent(0x58,4,  4,2, 24,8);
             // Meta 0x51 (tempo):
