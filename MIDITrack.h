@@ -41,8 +41,8 @@ struct MIDITrack {
 			byteStream.addBytes(0xFF, metatype, nbytes, args...);
 		}
 
-	void keyOn(int ch, Octave o, Note n, int p)    { addEvent(0x90|ch, getMIDINoteNumber(n, o), p); }
-	void keyOff(int ch, Octave o, Note n, int p)    { addEvent(0x80|ch, getMIDINoteNumber(n, o), p); }
+	void keyOn(int ch, Music::Octave o, Music::Note n, int p)    { addEvent(0x90|ch, getMIDINoteNumber(n, o), p); }
+	void keyOff(int ch, Music::Octave o, Music::Note n, int p)    { addEvent(0x80|ch, getMIDINoteNumber(n, o), p); }
 	//void keyOff(int ch, int n, int p)   { if(n>=0)addEvent(0x80|ch, n, p); }
 	void keyTouch(int ch, int n, int p) { if(n>=0)addEvent(0xA0|ch, n, p); }
 

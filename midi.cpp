@@ -3,9 +3,16 @@
 #include <MIDIFile.h>
 #include <MIDINotes.h>
 
+using namespace Music;
 
 int main() {
     // Begin with some chords.
+
+    auto p = note(Note::C, Octave::O3, 100) ;
+    auto r = rest(100);
+    Line x { p, r, p , p };
+
+    printLine(x);
     
     MIDIfile file;
     //file.addLoopStart();
