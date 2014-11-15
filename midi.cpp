@@ -15,6 +15,7 @@ int main() {
     printLine(x);
     
     MIDIfile file;
+    file.track.patch(0, 29); // this to select the instrument - 29=Electric Guitar
     //file.addLoopStart();
     file.track.keyOn(0, Octave::O4, Note::C, 127);
     file.track.addDelay(4);
