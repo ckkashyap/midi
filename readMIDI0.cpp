@@ -90,7 +90,7 @@ VarLen readN() {
 		val <<= 8;
 		val|=b;
 		byteCount++;
-	}while(b&0xf0);
+	}while(b&0x80);
 	return {val, byteCount};
 }
 
