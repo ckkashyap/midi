@@ -2,6 +2,7 @@
 #include <tuple>
 #include <map>
 
+using namespace std;
 
 enum class Problem {
 	BAD_HEADER_SIGNATURE,
@@ -37,7 +38,7 @@ HeaderString mtrk {'M', 'T', 'r', 'k'};
 
 HeaderString readHeaderString() {
 	char c1, c2, c3, c4;
-	std::cin >> c1 >> c2 >> c3 >> c4;
+	std::cin >> std::noskipws >> c1 >> c2 >> c3 >> c4;
 
 	HeaderString t {c1, c2, c3 ,c4 };
 	return t;
@@ -86,7 +87,7 @@ VarLen readN() {
 	unsigned byteCount=0;
 	Byte b;
 	do {
-		std::cin >> b;
+		std::cin >> std::noskipws >> b;
 		val <<= 8;
 		val|=b;
 		byteCount++;
@@ -125,7 +126,7 @@ unsigned readMetaEvent() {
 	unsigned length;
 	unsigned byteLength;
 
-	std::cin >> type;
+	std::cin >> std::noskipws >> type;
 	std::cout << std::hex << int(type) << std::endl;
 
 	auto varLen = readN();
@@ -142,21 +143,67 @@ unsigned readMetaEvent() {
 
 }
 
+const char *control2string(int c) {
+	switch(c) {
+		case 0x80:
+			return "Note-off";
+		case 0x90:
+			return "Note-off";
+		case 0xa0:
+			return "";
+		case 0xb0:
+			return "Control-change";
+		case 0xc0:
+			return "Program-change";
+		case 0xe0:
+			return "Pitch-bend";
+	}
+	cout << "undefined" << endl;
+	exit(0);
+	return "undefined";
+}
+
 int readEvent() {
 	auto varLen = readN();
-	unsigned delta = std::get<0>(varLen);
-	std::cout << "DELTA = " << delta << std::endl;
+	static unsigned delta;
+	delta += std::get<0>(varLen);
+	std::cout << dec << "DELTA = " << delta << " ";
 
 	Byte firstByte;
-	std::cin >> firstByte;
+	std::cin >> std::noskipws >> firstByte;
 
-	switch(firstByte) {
-		case 0xff:
-			return 1 + readMetaEvent();
+	if(firstByte == 0xff)
+	{
+		return 1 + readMetaEvent();
+	}
+	int controlNibble = (firstByte & 0xf0);
+	int channelNibble = (firstByte & 0x0f);
 
+	if(controlNibble != 0xf0 ) {
+		Byte b1, b2, b3 ;
+		switch(controlNibble){
+			case 0x80:
+			case 0x90:
+			case 0xa0:
+			case 0xb0:
+			case 0xe0:
+				std::cin >> std::noskipws >> b1;
+				std::cin >> std::noskipws >> b2;
+				cout << dec << control2string(int(controlNibble)) << " " << channelNibble << " " << int(b1) << " " << int(b2) << endl;
+				return 3;
+			case 0xc0:
+			case 0xd0:
+				std::cin >> std::noskipws >> b1;
+				cout << dec << control2string(int(controlNibble)) << " " <<  channelNibble << " " << int(b1) << endl;
+				return 2;
+		}
+	}else {
+		cout << "BAD" << endl;
 	}
 
 	exit(0);
+	return 0;
+	
 }
 
 void readTrack() {
@@ -165,7 +212,8 @@ void readTrack() {
 	int i = 0;
 	while(length) {
 		length -= readEvent();
-		if(i>2)break;
+		if(i>19485)break;
+		i++;
 	}
 }
 
